@@ -8,7 +8,7 @@ public class PropertiesFileHandler {
     //load properties file from folder
     public Properties loadProperties(String resourceName) throws IOException {
         Properties prop = new Properties();
-        try (FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "/src/main/resources/configurations/" + resourceName + ".properties")) {
+        try (FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "/src/main/resources/" + resourceName + ".properties")) {
             MyLogger.info("Loaded property file: " + resourceName);
             prop.load(fis);
         } catch (IOException e) {

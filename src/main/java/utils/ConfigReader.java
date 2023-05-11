@@ -18,7 +18,7 @@ public class ConfigReader {
 		if (result == null) {
 			MyLogger.info("Browser is null");
 			result = System.getProperty("browser", "Chrome");
-			MyLogger.info("get Browser type" + result);
+			MyLogger.info("get Browser type : " + result);
 			browserType.set(result);
 		}
 		return result;
