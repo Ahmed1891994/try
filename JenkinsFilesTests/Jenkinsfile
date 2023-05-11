@@ -10,21 +10,21 @@ pipeline {
     	stage("Run Chrome Tests"){
     	     steps {
     	     	bat "docker-compose up -d hub chrome"
-    	     	bat "docker-compose up -d testng-chrome"
+    	     	bat "docker-compose up testng-chrome"
     	     	bat "docker-compose down chrome testng-chrome"
     	    }
     	}
     	stage("Run Edge Tests"){
     	     steps {
     	     	bat "docker-compose up -d hub edge"
-    	     	bat "docker-compose up -d testng-edge"
+    	     	bat "docker-compose up testng-edge"
     	     	bat "docker-compose down edge testng-edge"
     	    }
     	}
     	stage("Run Tests"){
     	     steps {
     	     	bat "docker-compose up -d hub firefox"
-    	     	bat "docker-compose up -d testng-firefox"
+    	     	bat "docker-compose up testng-firefox"
     	     	bat "docker-compose down firefox testng-firefox"
     	    }
     	}
