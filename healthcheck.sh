@@ -13,5 +13,6 @@ done
 jar -xvf framework_jar-tests.jar
 echo "Hello this is ========================>"
 echo $MODULE
+sleep 100000000
 java -cp framework_jar.jar:framework_jar-tests.jar:libs/* -Dcucumber.features=. -DHUBHOST=$HUBHOST -Denv=prod -Dbrowser=$BROWSER org.testng.TestNG $MODULE
     
