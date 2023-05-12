@@ -61,7 +61,8 @@ services:
          - chrome
       environment: 
          - HUBHOST=hub
-         - MODULE=testng.xml -Dbrowser=Chrome
+         - BROWSER=Chrome
+         - MODULE=testng.xml
          - SE_EVENT_BUS_HOST=hub
          - SE_EVENT_BUS_PUBLISH_PORT=4442
          - SE_EVENT_BUS_SUBSCRIBE_PORT=4443      
@@ -73,7 +74,8 @@ services:
          - edge
       environment: 
          - HUBHOST=hub
-         - MODULE=testng.xml -Dbrowser=Edge
+         - BROWSER=Edge
+         - MODULE=testng.xml
          - SE_EVENT_BUS_HOST=hub
          - SE_EVENT_BUS_PUBLISH_PORT=4442
          - SE_EVENT_BUS_SUBSCRIBE_PORT=4443      
@@ -85,7 +87,8 @@ services:
          - firefox
       environment: 
          - HUBHOST=hub
-         - MODULE=testng.xml -Dbrowser=Firefox
+         - BROWSER=Firefox
+         - MODULE=testng.xml
          - SE_EVENT_BUS_HOST=hub
          - SE_EVENT_BUS_PUBLISH_PORT=4442
          - SE_EVENT_BUS_SUBSCRIBE_PORT=4443      
