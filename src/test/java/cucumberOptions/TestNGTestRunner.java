@@ -6,11 +6,11 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(features={"src/test/resources/features"},glue ={"stepDefinitions"}
 ,monochrome=true,
 plugin= {"pretty",
-		"html:testng_results/cucumberReports.html",
+		"html:test-output/cucumberReports.html",
 		"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
-		"json:testng_results/cucumberReports.json",
-		"junit:testng_results/cucumberReports/Cucumber.xml",
-		"rerun:testng_results/failed_scenario.txt",
+		"json:test-output/cucumberReports.json",
+		"junit:test-output/cucumberReports/Cucumber.xml",
+		"rerun:test-output/failed_scenario.txt",
 		"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 )
 
