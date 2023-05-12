@@ -12,7 +12,7 @@ pipeline {
     	     steps {
     	     	bat "docker-compose up -d hub firefox"
     	     	bat "docker-compose up testng-firefox"
-    	     	bat "docker-compose down firefox testng-firefox"
+    	     	bat "docker-compose down firefox"
     	    }
     	}
     }
