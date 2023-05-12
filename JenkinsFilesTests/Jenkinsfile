@@ -18,6 +18,7 @@ pipeline {
     	     steps {
     	     	bat "docker-compose up -d firefox"
     	     	bat "docker-compose up testng-firefox"
+                             cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
     	    }
     	}
         
@@ -25,6 +26,7 @@ pipeline {
     	     steps {
     	     	bat "docker-compose up -d chrome"
     	     	bat "docker-compose up testng-chrome"
+                             cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
     	    }
     	}
         
@@ -32,14 +34,13 @@ pipeline {
     	     steps {
     	     	bat "docker-compose up -d edge"
     	     	bat "docker-compose up testng-edge"
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
     	    }
     	}
     }
     post {
         always {
-            step([$class: 'Publisher', reportFilenamePattern: 'testng_results/testng-results.xml'])
-            cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
-            
+            step([$class: 'Publisher', reportFilenamePattern: 'testng_results/testng-results.xml'])            
         }
     }
 }
