@@ -42,6 +42,7 @@ pipeline {
         always {
             step([$class: 'Publisher', reportFilenamePattern: 'testng_results/testng-results.xml'])
             cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+            bat "docker-compose down"
         }
     }
 }
