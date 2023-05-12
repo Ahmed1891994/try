@@ -8,16 +8,37 @@ pipeline {
     	    }	
     	}
     	
-    	stage("Run Tests"){
+        stage("Start Grid"){
     	     steps {
-    	     	bat "docker-compose up -d hub firefox"
+    	     	bat "docker-compose up -d hub"
+    	    }
+    	}
+        
+    	stage("Run Firefox Tests"){
+    	     steps {
+    	     	bat "docker-compose up -d firefox"
     	     	bat "docker-compose up testng-firefox"
+    	    }
+    	}
+        
+        stage("Run Chrome Tests"){
+    	     steps {
+    	     	bat "docker-compose up -d chrome"
+    	     	bat "docker-compose up testng-chrome"
+    	    }
+    	}
+        
+        stage("Run Edge Tests"){
+    	     steps {
+    	     	bat "docker-compose up -d edge"
+    	     	bat "docker-compose up testng-edge"
     	    }
     	}
     }
     post {
         always {
             step([$class: 'Publisher', reportFilenamePattern: 'testng_results/testng-results.xml'])
+            cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             bat "docker-compose down"
         }
     }
