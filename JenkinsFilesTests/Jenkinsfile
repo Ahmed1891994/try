@@ -16,8 +16,6 @@ pipeline {
                 bat "docker-compose up -d firefox"
                 bat "docker-compose up testng-firefox"
                 bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\firefox_cucumber_report.json" // Rename the report file
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: 'firefox_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
         stage("Run Chrome Tests") {
@@ -25,8 +23,6 @@ pipeline {
                 bat "docker-compose up -d chrome"
                 bat "docker-compose up testng-chrome"
                 bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\chrome_cucumber_report.json" // Rename the report file
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: 'chrome_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
         stage("Run Edge Tests") {
@@ -34,13 +30,12 @@ pipeline {
                 bat "docker-compose up -d edge"
                 bat "docker-compose up testng-edge"
                 bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\edge_cucumber_report.json" // Rename the report file
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: 'edge_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
     }
     post {
         always {
+            bat "cucumber-report-generator -o consolidated-report.html testng_results/**/*.json"
             cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
             jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '*_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
         }
