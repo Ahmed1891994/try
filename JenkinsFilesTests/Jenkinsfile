@@ -34,7 +34,7 @@ pipeline {
         }
         stage("Generate Consolidated Report") {
             steps {
-                bat "npm install -g cucumber-report-generator"
+                bat "npm install -g cucumber-report-generator-windows"
                 bat "cucumber-report-generator -o consolidated-report.html testng_results/cucumberReports/*.json"
                 }
             }
