@@ -35,7 +35,7 @@ pipeline {
     }
     post {
         always {
-          stage('Publish Report') {
+          stage("Publish Report") {
             steps {
                 extentReports([
                     extentFiles: 'extent-report.html',
