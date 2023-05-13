@@ -32,12 +32,6 @@ pipeline {
                 bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\edge_cucumber_report.json" // Rename the report file
             }
         }
-        stage("Generate Consolidated Report") {
-            steps {
-                bat "npm install -g cucumber-report-generator-windows"
-                bat "cucumber-report-generator -o consolidated-report.html testng_results/cucumberReports/*.json"
-                }
-            }
     }
     post {
         always {
