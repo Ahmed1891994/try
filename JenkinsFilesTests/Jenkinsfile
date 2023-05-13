@@ -35,7 +35,6 @@ pipeline {
     }
     post {
         always {
-          stage("Publish Report") {
             steps {
                 extentReports([
                     extentFiles: 'extent-report.html',
@@ -43,7 +42,6 @@ pipeline {
                     reportName: 'my-test-report',
                     reportFiles: 'test-out/ExtentReport/*/spark.html'
                 ])
-            }
         }
     }
      
