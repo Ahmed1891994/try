@@ -15,7 +15,7 @@ pipeline {
             steps {
                 bat "docker-compose up -d firefox"
                 bat "docker-compose up testng-firefox"
-                bat "mv test-output/cucumberReports.json test-output/cucumberReports/firefox.json" // Rename the report file
+                bat "move test-output\\cucumberReports.json test-output\\cucumberReports\\firefox.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
                 jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 bat "docker-compose up -d chrome"
                 bat "docker-compose up testng-chrome"
-                bat "mv test-output/cucumberReports.json test-output/cucumberReports/chrome.json" // Rename the report file
+                bat "move test-output\\cucumberReports.json test-output\\cucumberReports\\chrome.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
                 jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 bat "docker-compose up -d edge"
                 bat "docker-compose up testng-edge"
-                bat "mv test-output/cucumberReports.json test-output/cucumberReports/edge.json" // Rename the report file
+                bat "move test-output\\cucumberReports.json test-output\\cucumberReports\\edge.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
                 jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
