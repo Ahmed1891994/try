@@ -41,8 +41,19 @@ pipeline {
     }
     post {
         always {
-            cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-            jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '*_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+            // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the jar file.               
+                success {
+                  publishHTML([
+                              allowMissing: false, 
+                              alwaysLinkToLastBuild: false, 
+                              keepAll: false, 
+                              reportDir: 'Reports', 
+                              reportFiles: 'Spark.html', 
+                              reportName: 'ExtentReport', 
+                              reportTitles: '', 
+                              useWrapperFileDirectly: true])
+                }
         }
     }
 
