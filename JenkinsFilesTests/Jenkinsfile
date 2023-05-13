@@ -43,14 +43,4 @@ pipeline {
             }
         }    
     }
-    post {
-        always {
-            steps {
-               
-        }
-    }
-     
-    }
-
-
 }
