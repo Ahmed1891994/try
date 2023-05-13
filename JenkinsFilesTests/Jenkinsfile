@@ -20,7 +20,7 @@ pipeline {
                 dir('test-output') {
                     bat 'dir'
                 }
-                bat "move test-output\\cucumberReports.json test-output\\cucumberReports\\firefox.json" // Rename the report file
+                bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\firefox.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
                 jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
