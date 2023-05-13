@@ -32,9 +32,7 @@ pipeline {
                 bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\edge_cucumber_report.json" // Rename the report file
             }
         }
-    }
-    post {
-        always {
+        stage("reporting") {
             steps {
                 extentReports([
                     extentFiles: 'extent-report.html',
@@ -42,6 +40,13 @@ pipeline {
                     reportName: 'my-test-report',
                     reportFiles: 'test-out/ExtentReport/*/spark.html'
                 ])
+            }
+        }    
+    }
+    post {
+        always {
+            steps {
+               
         }
     }
      
