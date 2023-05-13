@@ -43,4 +43,11 @@ pipeline {
             }
         }    
     }
+      post {
+        always {
+            step([$class: 'Publisher', reportFilenamePattern: 'testng_results/testng-results.xml'])
+            step([$class: 'Publisher', reportFilenamePattern: 'testng_results/ExtentReport/*/spark.html'])
+            bat "docker-compose down"
+        }
+    }
 }
