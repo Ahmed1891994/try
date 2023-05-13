@@ -2,47 +2,51 @@ pipeline {
     // master executor should be set to 0
     agent any
     stages {
-    	stage("Start Pull Latest Image"){
-    		steps {
-    	     	bat "docker pull ahmedhakem/cucumber-docker:cucumber-docker"
-    	    }	
-    	}
-    	
+        stage("Start Pull Latest Image"){
+            steps {
+                bat "docker pull ahmedhakem/cucumber-docker:cucumber-docker"
+            }
+        }
+
         stage("Start Grid"){
-    	     steps {
-    	     	bat "docker-compose up -d hub"
-    	    }
-    	}
-        stage("Run Tests"){
-            parallel{
-                stage("Run Firefox Tests"){
-                     steps {
-                        bat "docker-compose up -d firefox"
-                        bat "docker-compose up testng-firefox  --format json --out testng_results/firefox.json"
-                    }
-                }
+            steps {
+                bat "docker-compose up -d hub"
+            }
+        }
 
-                stage("Run Chrome Tests"){
-                     steps {
-                        bat "docker-compose up -d chrome"
-                        bat "docker-compose up testng-chrome --format json --out testng_results/chrome.json"
-                    }
-                }
+        stage("Run Firefox Tests"){
+            steps {
+                bat "docker-compose up -d firefox"
+                bat "docker-compose up testng-firefox"
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results/firefox", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+            }
+        }
 
-                stage("Run Edge Tests"){
-                     steps {
-                        bat "docker-compose up -d edge"
-                        bat "docker-compose up testng-edge --format json --out testng_results/edge.json"
-                    }
-                }
+        stage("Run Chrome Tests"){
+            steps {
+                bat "docker-compose up -d chrome"
+                bat "docker-compose up testng-chrome"
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results/chrome", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+            }
+        }
+
+        stage("Run Edge Tests"){
+            steps {
+                bat "docker-compose up -d edge"
+                bat "docker-compose up testng-edge"
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results/edge", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
     }
     post {
         always {
-            step([$class: 'Publisher', reportFilenamePattern: 'testng_results/testng-results.xml'])
-            cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
-            bat "docker-compose down"
+            script {
+                def jsonFiles = findFiles(glob: 'testng_results/**/*.json')
+                jsonFiles.each { jsonFile ->
+                    def reportDir = jsonFile.path.replaceAll('.json', '')
+                    cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: reportDir, fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                }
+            }
         }
     }
 }
