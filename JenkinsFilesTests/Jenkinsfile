@@ -15,29 +15,15 @@ pipeline {
             steps {
                 bat "docker-compose up -d firefox"
                 bat "docker-compose up testng-firefox"
+                dir('test-output') {
+                    bat 'dir'
+                }
                 bat "move test-output\\cucumberReports.json test-output\\cucumberReports\\firefox.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
                 jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
-        stage("Run Chrome Tests") {
-            steps {
-                bat "docker-compose up -d chrome"
-                bat "docker-compose up testng-chrome"
-                bat "move test-output\\cucumberReports.json test-output\\cucumberReports\\chrome.json" // Rename the report file
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
-            }
-        }
-        stage("Run Edge Tests") {
-            steps {
-                bat "docker-compose up -d edge"
-                bat "docker-compose up testng-edge"
-                bat "move test-output\\cucumberReports.json test-output\\cucumberReports\\edge.json" // Rename the report file
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
-            }
-        }
+
     }
     post {
         always {
