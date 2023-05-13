@@ -15,24 +15,27 @@ pipeline {
             steps {
                 bat "docker-compose up -d firefox"
                 bat "docker-compose up testng-firefox"
+                bat "mv testng_results/cucumber_report.json testng_results/firefox/firefox_report.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/firefox/firefox_report.json", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                jsonReportDirectory: "testng_results/firefox", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
         stage("Run Chrome Tests") {
             steps {
                 bat "docker-compose up -d chrome"
                 bat "docker-compose up testng-chrome"
+                bat "mv testng_results/cucumber_report.json testng_results/chrome/chrome_report.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/chrome/chrome_report.json", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                jsonReportDirectory: "testng_results/chrome", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
         stage("Run Edge Tests") {
             steps {
                 bat "docker-compose up -d edge"
                 bat "docker-compose up testng-edge"
+                bat "mv testng_results/cucumber_report.json testng_results/edge/edge_report.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/edge/edge_report.json", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                jsonReportDirectory: "testng_results/edge", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
     }
