@@ -15,28 +15,36 @@ pipeline {
             steps {
                 bat "docker-compose up -d firefox"
                 bat "docker-compose up testng-firefox"
-                bat "set mypath=%cd%"
-                bat "@echo %mypath%"
-                dir('test-output') {
-                    bat 'dir'
-                }
-                bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\firefox.json" // Rename the report file
+                bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\firefox_cucumber_report.json" // Rename the report file
                 cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
-                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: 'firefox_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
-
+        stage("Run Chrome Tests") {
+            steps {
+                bat "docker-compose up -d chrome"
+                bat "docker-compose up testng-chrome"
+                bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\chrome_cucumber_report.json" // Rename the report file
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
+                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: 'chrome_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+            }
+        }
+        stage("Run Edge Tests") {
+            steps {
+                bat "docker-compose up -d edge"
+                bat "docker-compose up testng-edge"
+                bat "move testng_results\\cucumberReports.json testng_results\\cucumberReports\\edge_cucumber_report.json" // Rename the report file
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
+                jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: 'edge_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+            }
+        }
     }
     post {
         always {
-            script {
-                def jsonFiles = findFiles(glob: 'testng_results/**/*.json')
-                jsonFiles.each { jsonFile ->
-                    def reportDir = jsonFile.path.replaceAll('.json', '')
-                    cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1,
-                    jsonReportDirectory: reportDir + '_cucumber_report.json', fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
-                }
-            }
+            cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
+            jsonReportDirectory: "testng_results/cucumberReports", fileIncludePattern: '*_cucumber_report.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
         }
     }
+
+
 }
