@@ -1,40 +1,38 @@
 pipeline {
-    // master executor should be set to 0
     agent any
     stages {
-        stage("Start Pull Latest Image"){
+        stage("Start Pull Latest Image") {
             steps {
                 bat "docker pull ahmedhakem/cucumber-docker:cucumber-docker"
             }
         }
-
-        stage("Start Grid"){
+        stage("Start Grid") {
             steps {
                 bat "docker-compose up -d hub"
             }
         }
-
-        stage("Run Firefox Tests"){
+        stage("Run Firefox Tests") {
             steps {
                 bat "docker-compose up -d firefox"
                 bat "docker-compose up testng-firefox"
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results/firefox", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
+                jsonReportDirectory: "testng_results/firefox/firefox_report.json", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
-
-        stage("Run Chrome Tests"){
+        stage("Run Chrome Tests") {
             steps {
                 bat "docker-compose up -d chrome"
                 bat "docker-compose up testng-chrome"
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results/chrome", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
+                jsonReportDirectory: "testng_results/chrome/chrome_report.json", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
-
-        stage("Run Edge Tests"){
+        stage("Run Edge Tests") {
             steps {
                 bat "docker-compose up -d edge"
                 bat "docker-compose up testng-edge"
-                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: "testng_results/edge", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, 
+                jsonReportDirectory: "testng_results/edge/edge_report.json", fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
             }
         }
     }
@@ -44,7 +42,8 @@ pipeline {
                 def jsonFiles = findFiles(glob: 'testng_results/**/*.json')
                 jsonFiles.each { jsonFile ->
                     def reportDir = jsonFile.path.replaceAll('.json', '')
-                    cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, jsonReportDirectory: reportDir, fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                    cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1,
+                    jsonReportDirectory: reportDir + '_cucumber_report.json', fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
                 }
             }
         }
